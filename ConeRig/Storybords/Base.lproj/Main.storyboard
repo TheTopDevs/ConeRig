@@ -34,19 +34,12 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cky-pE-JYi">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCt-Su-te0" customClass="LinesView" customModule="ConeRig" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="PCt-Su-te0" firstAttribute="centerX" secondItem="cky-pE-JYi" secondAttribute="centerX" id="1nv-YA-QAY"/>
-                                    <constraint firstItem="PCt-Su-te0" firstAttribute="centerY" secondItem="cky-pE-JYi" secondAttribute="centerY" id="91w-ck-qLk"/>
-                                    <constraint firstItem="PCt-Su-te0" firstAttribute="width" secondItem="cky-pE-JYi" secondAttribute="width" id="kz4-Rj-f1C"/>
-                                    <constraint firstItem="PCt-Su-te0" firstAttribute="height" secondItem="cky-pE-JYi" secondAttribute="height" id="qcP-Ch-3xe"/>
-                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PCt-Su-te0" customClass="LinesView" customModule="ConeRig" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2mM-n1-pD3"/>
@@ -61,7 +54,6 @@
                     <tabBarItem key="tabBarItem" title="Video" image="video" catalog="system" id="3BU-3A-8Oz"/>
                     <connections>
                         <outlet property="linesView" destination="PCt-Su-te0" id="bvP-VU-uaQ"/>
-                        <outlet property="linesViewHeightConstraint" destination="qcP-Ch-3xe" id="lCn-LK-9bz"/>
                         <outlet property="previewView" destination="cky-pE-JYi" id="wBU-iD-8mF"/>
                     </connections>
                 </viewController>
