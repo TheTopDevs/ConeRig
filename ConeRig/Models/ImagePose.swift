@@ -13,6 +13,10 @@ extension PoseInfo {
     public func point() -> CGPoint {
         return CGPoint(x: position.x, y: position.y)
     }
+    
+    public func swapPoint() -> CGPoint {
+        return CGPoint(x: position.y, y: position.x)
+    }
 }
 
 public struct Pose {

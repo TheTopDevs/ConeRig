@@ -22,32 +22,9 @@ class ImageViewController: UIViewController {
         return PoseDetector.poseDetector(options: options)
     }()
     
-    let image = UIImage(named: "p1")!
+    let image = UIImage(named: "p3")!
     var imagePoses: ImagePoses? {didSet{
-        if let pose = imagePoses?.first?.pose {
-            lineView.changeColorFrame = 70
-            lineView.lines = [[pose.leftWrist.point(),
-                               pose.leftElbow.point(),
-                               pose.leftShoulder.point(),
-                               pose.rightShoulder.point(),
-                               pose.rightElbow.point(),
-                               pose.rightWrist.point()
-                              ],
-                              [pose.leftHeel.point(),
-                               pose.leftKnee.point(),
-                               pose.leftHip.point(),
-                               pose.rightHip.point(),
-                               pose.rightKnee.point(),
-                               pose.rightHeel.point()
-                              ],
-                              [
-                                CGPoint(x: (pose.leftShoulder.point().x + pose.rightShoulder.point().x) / 2.0,
-                                        y: (pose.leftShoulder.point().y + pose.rightShoulder.point().y) / 2.0),
-                                CGPoint(x: (pose.leftHip.point().x + pose.rightHip.point().x) / 2.0,
-                                        y: (pose.leftHip.point().y + pose.rightHip.point().y) / 2.0)
-                             ]
-            ]
-        }
+        lineView.showPoses(imagePoses?.map({$0.pose}))
     }}
     
     override func viewDidLoad() {

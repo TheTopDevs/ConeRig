@@ -16,8 +16,6 @@ class VideoViewController: UIViewController {
     @IBOutlet weak var linesView: LinesView!
     @IBOutlet weak var linesViewHeightConstraint: NSLayoutConstraint!
     
-//    let linesView = LinesView()
-
     let captureSessionQueue = DispatchQueue(label: "CaptureSessionQueue")
     let captureSession = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
@@ -68,15 +66,16 @@ class VideoViewController: UIViewController {
         videoPreviewLayer.connection?.videoOrientation = .portrait
         previewView.layer.addSublayer(videoPreviewLayer)
         
-//        let dimensions = CMVideoFormatDescriptionGetDimensions(backCamera.activeFormat.formatDescription)
-//        self.linesViewHeightConstraint.constant = CGFloat(dimensions.height) * videoPreviewLayer.frame.size.width / CGFloat(dimensions.width)
-
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.captureSession.startRunning()
             DispatchQueue.main.async {[weak self]in
                 guard let self = self else {return}
                 self.videoPreviewLayer.frame = self.previewView.bounds
-                self.linesView.frame = self.previewView.frame
+                
+                let dimensions = CMVideoFormatDescriptionGetDimensions(backCamera.activeFormat.formatDescription)
+                let height = CGFloat(dimensions.width) * self.previewView.bounds.size.width / CGFloat(dimensions.height)
+                self.linesView.frame = self.previewView.frame.rect(withHeight: height)
+                self.linesView.center = self.previewView.center
             }
         }
     }
@@ -105,8 +104,8 @@ extension VideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         guard nil == visionImage else { return }
         let visionImage = VisionImage(buffer: sampleBuffer)
-        visionImage.orientation = .right // imageOrientation(deviceOrientation: UIDevice.current.orientation,
-                                                //   cameraPosition: camera?.position ?? .back)
+        visionImage.orientation = imageOrientation(deviceOrientation: UIDevice.current.orientation,
+                                                   cameraPosition: camera?.position ?? .back)
         self.visionImage = visionImage
         
         let options = PoseDetectorOptions()
@@ -116,7 +115,7 @@ extension VideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             //Main thread
             guard let self = self else { return }
             
-            self.linesView.showPoses(poses)
+            self.linesView.showRotatedPoses(poses)
             self.linesView.backgroundColor = (poses?.isEmpty ?? true) ? .clear : .yellow.withAlphaComponent(0.2)
             
             self.captureSessionQueue.async {[weak self]in
